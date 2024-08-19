@@ -64,7 +64,7 @@ export class User extends Model<User> {
   level: string;
 
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     allowNull: false,
   })
   salary: number;
@@ -73,7 +73,7 @@ export class User extends Model<User> {
     type: DataType.ENUM("MALE", "FEMALE"),
     allowNull: false,
   })
-  sex: number;
+  sex: string;
 
   @Column({
     type: DataType.BOOLEAN,

@@ -1,5 +1,5 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import { IAuthentication, IUserLogin } from './auth.interface';
+import { IAuthentication, IResponseGoogle, IUserLogin } from './auth.interface';
 import { User } from 'models/user.model';
 import { Op } from 'sequelize';
 import bcrypt from "bcrypt";
@@ -11,14 +11,30 @@ import { InjectModel } from '@nestjs/sequelize';
 export class AuthService {
   @InjectModel(User)
   private readonly userModel: typeof User;
-  verifyLogin(user: IUserLogin): object {
-    const domainEmail = process.env.DOMAIN_EMAIL || 'ts@gmail.com';
-    if (user?.email?.match(domainEmail)) {
+  verifyDomain(user: IUserLogin): object {
+    const domainEmail = process.env.DOMAIN_EMAIL || 'ncc.asia';
+    if (user?.hd === domainEmail || user.email.match(domainEmail)) {
       return user;
     }
 
-    throw new HttpException("Can't login", 400);
-  }
+    throw new HttpException("This account google isn't register!", 400);
+  };
+
+  async verifyGoogle(payload: IResponseGoogle) {
+    this.verifyDomain({ ...payload, firstName: payload.family_name, lastName: payload.given_name })
+    const user: User = await this.userModel.findOne({
+      where: { 
+        email: payload.email,
+      },
+      attributes: ["id"],
+      useMaster: false
+    });
+    
+    if (user) {
+      return { ...payload, userId: user.id }
+    };
+    throw new HttpException("This account google isn't register!", 400);
+  };
 
   authenticate(body: IAuthentication) {
     const user = this.userModel.findOne({

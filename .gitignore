@@ -1,2 +1,4 @@
 node_modules
 .env
+tsconfig.build.json
+dist

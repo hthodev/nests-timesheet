@@ -26,9 +26,10 @@ import { ExcludePrefixMiddleware } from './middlewares';
     UserModule,
     BranchModule,
     WorkingTimeModule,
+    AuthModule,
   ],
-  controllers: [AppController, UserController, SessionController, AuthController],
-  providers: [AppService, AuthService],
+  controllers: [AppController, UserController, SessionController, AuthController, AuthController],
+  providers: [AppService],
 })
 export class AppModule {
 }

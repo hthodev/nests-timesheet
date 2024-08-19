@@ -15,7 +15,7 @@ export interface ICreateUserParam {
   type: string;
   firstName: string;
   lastName: string;
-  sex: number;
+  sex: string;
   positionId: number;
   managerId: number | null;
   level: string;

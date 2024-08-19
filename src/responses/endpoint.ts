@@ -1,10 +1,6 @@
-export function responseEndpoint({ result = {}, targetUrl = null, success = true, error = null, unAuthorizedRequest = false, __abp = true }) {
+export function responseEndpoint({ result = {}, status= 200 }) {
   return {
     result,
-    targetUrl,
-    success,
-    error,
-    unAuthorizedRequest,
-    __abp
+    status,
   }
 }

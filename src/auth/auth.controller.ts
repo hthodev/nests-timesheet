@@ -1,22 +1,29 @@
-import { Controller, Get, UseGuards, Req, Post, Body, HttpException, HttpCode } from '@nestjs/common';
+import { Controller, Get, UseGuards, Req, Post, Body, HttpException, HttpCode, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { responseEndpoint } from 'src/responses/endpoint';
-import { IAuthentication } from './auth.interface';
+import { IAuthentication, IResponseGoogle } from './auth.interface';
 import { comparePassword, signToken } from 'src/shares/ultis';
+import { GoogleAuthService } from './google-auth.service';
 
-@Controller('TokenAuth')
+@Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) { }
-  @Get('google')
-  @UseGuards(AuthGuard('google'))
-  async googleAuth(@Req() req) { }
-
-  @Get('google/callback')
-  @UseGuards(AuthGuard('google'))
-  googleAuthRedirect(@Req() req) {
-    const user = this.authService.verifyLogin(req.user)
-    return responseEndpoint({ result: user });
+  constructor(
+    private readonly authService: AuthService,
+    private readonly googleAuthService: GoogleAuthService
+  ) { }
+  @Post('google/login')
+  @HttpCode(200)
+  async googleLogin(@Body('credential') token: string) {
+    const payload = await this.googleAuthService.verifyToken(token);
+    if (!payload) {
+      throw new UnauthorizedException('Invalid token');
+    }
+    const user = this.authService.verifyGoogle((payload as IResponseGoogle));
+    return responseEndpoint({
+      result: await signToken(user),
+      status: 200
+    })
   }
 
   @Post('Authenticate')

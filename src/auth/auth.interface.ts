@@ -1,13 +1,25 @@
 export interface IUserLogin {
-	email: string;
-	firstName: string;
-	lastName: string;
-	picture: string;
-	accessToken: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  picture: string;
+  accessToken?: string;
+  hd?: string;
+  name?: string;
 }
 
 export interface IAuthentication {
-	password: string;
-	rememberClient: boolean;
-	userNameOrEmailAddress: string;
+  password: string;
+  rememberClient: boolean;
+  userNameOrEmailAddress: string;
+}
+
+export interface IResponseGoogle {
+  hd: string
+  email: string;
+  email_verified: boolean;
+  name: string;
+  picture: string;
+  given_name: string;
+  family_name: string;
 }
