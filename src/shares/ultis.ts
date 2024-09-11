@@ -26,11 +26,5 @@ export function comparePassword(password, hashPassworded) {
 
 export function signToken(user) {
   const privateKey = process.env.PRIVATE_KEY;
-
-  return sign({
-    data: {
-      exp: Math.floor(Date.now() / 1000) + (60 * 60),
-      data: user
-    }
-  }, privateKey, { algorithm: 'RS256' })
+  return sign({...user}, privateKey, { algorithm: 'RS256' })
 }

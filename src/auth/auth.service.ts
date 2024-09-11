@@ -21,32 +21,26 @@ export class AuthService {
   };
 
   async verifyGoogle(payload: IResponseGoogle) {
-    this.verifyDomain({ ...payload, firstName: payload.family_name, lastName: payload.given_name })
-    const user: User = await this.userModel.findOne({
-      where: { 
-        email: payload.email,
-      },
-      attributes: ["id"],
-      useMaster: false
-    });
-    
-    if (user) {
-      return { ...payload, userId: user.id }
-    };
-    throw new HttpException("This account google isn't register!", 400);
-  };
-
-  authenticate(body: IAuthentication) {
-    const user = this.userModel.findOne({
-      where: { 
-        [Op.or]: { 
-          email: body.userNameOrEmailAddress,
-          userName: body.userNameOrEmailAddress,
+    try {
+      // this.verifyDomain({ ...payload, firstName: payload.family_name, lastName: payload.given_name })
+      const user: User = await this.userModel.findOne({
+        where: { 
+          email: payload.email,
         },
-      }
-    })
-    return user
-  }
+        attributes: ["id"],
+        useMaster: false,
+        raw: true
+      });
+      
+      if (!user) {
+        throw new HttpException("This account google isn't register!", 400);
+      };
+      return { ...payload, userId: user.id }
+    } catch (error) {
+      throw error
+    }
+
+  };
 }
 
 // function comparePassword(passwordInput, password): any {

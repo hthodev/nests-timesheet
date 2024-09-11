@@ -1,6 +1,5 @@
 // src/auth/auth.module.ts
 import { Module } from '@nestjs/common';
-import { PassportModule } from '@nestjs/passport';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { AuthService } from './auth.service';
@@ -13,13 +12,12 @@ import authConfig from 'configs/auth.config';
   imports: [
     ConfigModule.forFeature(authConfig),
     SequelizeModule.forFeature([User]),
-    PassportModule,
   ],
   providers: [
     AuthService,
     GoogleAuthService,
   ],
   controllers: [AuthController],
-  exports: [AuthService, GoogleAuthService],  // Export if used in other modules
+  exports: [AuthService, GoogleAuthService],
 })
 export class AuthModule {}

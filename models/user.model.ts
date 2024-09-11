@@ -1,4 +1,3 @@
-// src/models/user.model.ts
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
 
 @Table({
@@ -28,7 +27,7 @@ export class User extends Model<User> {
   @Column({
     type: DataType.STRING,
     allowNull: false,
-    unique: true, // Ensure email is unique
+    unique: true,
   })
   email: string;
 
@@ -40,14 +39,21 @@ export class User extends Model<User> {
   userName: string;
 
   @Column({
-    type: DataType.STRING,
-    allowNull: false,
+    type: DataType.UUID,
+    allowNull: true,
+    references: {
+      model: 'users',
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'RESTRICT',
   })
-  password: string;
+  pmId: string;
 
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.FLOAT,
     allowNull: false,
+    defaultValue: 0,
   })
   allowedLeaveDay: number;
 
@@ -65,7 +71,7 @@ export class User extends Model<User> {
 
   @Column({
     type: DataType.INTEGER,
-    allowNull: false,
+    allowNull: true,
   })
   salary: number;
 
@@ -78,12 +84,110 @@ export class User extends Model<User> {
   @Column({
     type: DataType.BOOLEAN,
     allowNull: false,
+    defaultValue: true,
   })
   isActive: boolean;
 
   @Column({
     type: DataType.UUID,
     allowNull: false,
+    references: {
+      model: 'branches',
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'RESTRICT',
   })
   branchId: string;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  })
+  isOfficeManager: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  picture: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  birthday;
+
+  @Column({
+    type: DataType.ENUM("DEV", "PM", "HR", "ADMIN", "SALE", "TESTER", "DESIGNER", "BA", "DA", "PO"),
+    allowNull: false,
+  })
+  position;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  bankName;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  bankAccount;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  taxCode;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  emergencyContactPhone;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  insuranceStatus;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  identify;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  dateOfIssue;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  issuedBy;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  placeOfOrigin;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  placeOfResidence;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  currentAddress;
 }

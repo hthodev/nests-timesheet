@@ -60,16 +60,11 @@ export class UserService {
     }
   }
 
-  async findAll(): Promise<User[]> {
-    return this.userModel.findAll();
-  }
-
-  async findOne(id: string): Promise<User> {
-    return this.userModel.findByPk(id);
-  }
-
-  async remove(id: string): Promise<void> {
-    const user = await this.findOne(id);
-    await user.destroy();
+  async myInformation(id) {
+    return this.userModel.findOne({
+      where: { id },
+      useMaster: false,
+      raw: true
+    });
   }
 }

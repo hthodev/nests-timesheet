@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, OnModuleInit } from '@nestjs/common';
+import { MiddlewareConsumer, Module, OnModuleInit, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -13,11 +13,16 @@ import { UserService } from './models/users/user.service';
 import { BranchModule } from './models/branches/branch.module';
 import { WorkingTimeModule } from './models/workingTimes/workingTime.module';
 import { SessionController } from './auth/session.controller';
-import { NestApplication, RouterModule } from '@nestjs/core';
-import { ExcludePrefixMiddleware } from './middlewares';
+import { JwtMiddleware } from './middlewares/jwt.middleware';
+import { JwtModule } from '@nestjs/jwt';
+
 
 @Module({
   imports: [
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1h' },
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [authConfig],
@@ -29,7 +34,12 @@ import { ExcludePrefixMiddleware } from './middlewares';
     AuthModule,
   ],
   controllers: [AppController, UserController, SessionController, AuthController, AuthController],
-  providers: [AppService],
+  providers: [AppService, AuthService, UserService],
 })
 export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(JwtMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
 }
