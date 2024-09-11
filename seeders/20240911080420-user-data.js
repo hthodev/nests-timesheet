@@ -8,6 +8,7 @@ module.exports = {
         firstName: 'Admin',
         lastName: 'Company',
         email: 'thienthotran.it@gmail.com',
+        phoneNumber: '0121112223',
         userName: 'admin.company',
         pmId: null,
         allowedLeaveDay: 0,

@@ -32,6 +32,20 @@
 $ yarn install
 ```
 
+## create file start.sh
+```
+export GOOGLE_CLIENT_ID='';
+export GOOGLE_CLIENT_SECRET='';
+export GOOGLE_CALLBACK_URL='';
+export PRIVATE_KEY=''; //generate rs256
+export PUBLIC_KEY=''; // generate rs256
+
+nest start --watch;
+```
+
+nest start --watch;
+```
+
 ## Running the app
 
 ```bash
