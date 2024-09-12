@@ -1,13 +1,16 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { BranchService } from './branch.service';
 import { Branch } from 'models/branch.model';
+import { responseEndpoint } from 'src/responses/endpoint';
 
-@Controller('users')
-export class UserController {
+@Controller('/branches')
+export class BranchController {
   constructor(private readonly branchService: BranchService) {}
-
-  // @Get('get-user/:id')
-  // async getUser(@Param('id') id: string): Promise<Branch> {
-  //   return this.branchService.findOne(id);
-  // }
+  
+  @Get('get-all-branches')
+  async getAllBranch() {
+    return responseEndpoint({
+      result: await this.branchService.getAllBranch()
+    })
+  }
 }

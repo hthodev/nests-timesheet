@@ -107,11 +107,14 @@ export class User extends Model<User> {
   branchId: string;
 
   @Column({
-    type: DataType.BOOLEAN,
-    allowNull: false,
-    defaultValue: false,
+    type: DataType.UUID,
+    allowNull: true,
+    references: {
+      model: 'branches',
+      key: 'id',
+    },
   })
-  isOfficeManager: string;
+  officeManagerId: string;
 
   @Column({
     type: DataType.STRING,

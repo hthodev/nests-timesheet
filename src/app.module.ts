@@ -15,6 +15,7 @@ import { WorkingTimeModule } from './models/workingTimes/workingTime.module';
 import { SessionController } from './auth/session.controller';
 import { JwtMiddleware } from './middlewares/jwt.middleware';
 import { JwtModule } from '@nestjs/jwt';
+import { BranchController } from './models/branches/branch.controller';
 
 
 @Module({
@@ -33,7 +34,7 @@ import { JwtModule } from '@nestjs/jwt';
     WorkingTimeModule,
     AuthModule,
   ],
-  controllers: [AppController, UserController, SessionController, AuthController, AuthController],
+  controllers: [AppController, UserController, SessionController, AuthController, AuthController, BranchController],
   providers: [AppService, AuthService, UserService],
 })
 export class AppModule {

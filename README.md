@@ -52,8 +52,8 @@ nest start --watch;
 # development
 $ yarn run start
 
-# watch mode
-$ yarn run start:dev
+# run for dev
+$ yarn dev
 
 # production mode
 $ yarn run start:prod
