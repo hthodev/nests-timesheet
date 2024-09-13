@@ -1,4 +1,5 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, BelongsTo, ForeignKey } from 'sequelize-typescript';
+import { User } from './user.model';
 
 @Table({
   tableName: 'branches',
@@ -53,4 +54,14 @@ export class Branch extends Model<Branch> {
     allowNull: false,
   })
   afternoonWorking: Number;
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+    allowNull: true,
+  })
+  officeManagerId: string;
+
+  @BelongsTo(() => User)
+  officeManager: User;
 }
