@@ -67,4 +67,11 @@ export class UserService {
       raw: true
     });
   }
+
+  async getAllUserNoPaging() {
+    return await this.userModel.findAll({
+      raw: true,
+      attributes: ['id', 'firstName', 'lastName', 'picture']
+    })
+  }
 }

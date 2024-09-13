@@ -1,4 +1,5 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, BelongsTo } from 'sequelize-typescript';
+import { Branch } from './branch.model';
 
 @Table({
   tableName: 'users',
@@ -93,18 +94,15 @@ export class User extends Model<User> {
     defaultValue: true,
   })
   isActive: boolean;
-
+  
   @Column({
     type: DataType.UUID,
     allowNull: false,
-    references: {
-      model: 'branches',
-      key: 'id',
-    },
-    onUpdate: 'CASCADE',
-    onDelete: 'RESTRICT',
   })
   branchId: string;
+
+  @BelongsTo(() => Branch, { foreignKey: 'branchId', constraints: false })
+  branch: Branch;
 
   @Column({
     type: DataType.STRING,

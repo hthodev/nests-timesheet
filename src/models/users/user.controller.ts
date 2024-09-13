@@ -19,6 +19,15 @@ export class UserController {
 
   @Post('create-new-user')
   async createNewUser(@Body() body: ICreateUserParam): Promise<any> {
-    return this.userService.createNewUser(body);
+    return responseEndpoint({
+      result: await this.userService.createNewUser(body)
+    })
+  }
+
+  @Get('get-all-users-no-paging')
+  async allUsersNoPaging(): Promise<any> {
+    return responseEndpoint({
+      result: await this.userService.getAllUserNoPaging(),
+    })
   }
 }

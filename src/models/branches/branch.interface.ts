@@ -1,4 +1,5 @@
-export interface IBodyUpdateBranch {
+export interface IBodyBranch {
+    id?: string;
     name: string;
     morningStartAt: string;
     morningEndAt: string;

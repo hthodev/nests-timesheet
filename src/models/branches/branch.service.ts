@@ -2,8 +2,9 @@ import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Branch } from '../../../models/branch.model';
 import { User } from 'models/user.model';
-import { Sequelize, Op } from 'sequelize';
-import { IBodyUpdateBranch } from './branch.interface';
+import { Sequelize, Op, UUIDV4 } from 'sequelize';
+import { IBodyBranch } from './branch.interface';
+import { v4 as uuidV4 } from 'uuid'; 
 
 @Injectable()
 export class BranchService {
@@ -13,6 +14,14 @@ export class BranchService {
   ) {}
   @InjectModel(User)
   private readonly UserModel: typeof User;
+
+  async findBranch(branchId: string, name?: string) {
+    return await this.branchModel.findOne({
+      where: { [Op.or]: { id: branchId, ...(name ? { name } : {}) } },
+      raw: true,
+      useMaster: false,
+    });
+  }
 
   async getAllBranch() {
     return await this.branchModel.findAll({
@@ -27,15 +36,8 @@ export class BranchService {
     });
   }
 
-  async updateBranch(body: IBodyUpdateBranch, branchId: string) {
-    console.log(body);
-    
-    const branch = await this.branchModel.findOne({
-      where: { id: branchId },
-      raw: true,
-      attributes: ['id'],
-      useMaster: false,
-    });
+  async updateBranch(body: IBodyBranch, branchId: string) {
+    const branch = await this.findBranch(branchId);
     if (!branch) {
       throw new HttpException('No record updated', 400);
     }
@@ -47,7 +49,55 @@ export class BranchService {
     
   }
 
+  async deleteBranch(branchId) {
+    const [branch, user] = await Promise.all([
+      this.findBranch(branchId),
+      this.UserModel.findOne({ where: { branchId, isActive: true }, attributes: ['id'], raw: true, useMaster: false})
+    ]);
+    if (!branch) {
+      throw new HttpException('No record deleted', 400);
+    }
+    if (user) {
+      throw new HttpException('Must deactivate users working on this branch or change users working to another branch', 400);
+    }
+
+    const updated = await this.branchModel.destroy({ where: { id: branchId }});
+    if (!updated) {
+      throw new HttpException('No record deleted', 400);
+    }
+  }
+
+  async newBranch(body: IBodyBranch) {
+    const branch = await this.findBranch(null, body.name);
+    if (branch) {
+      throw new HttpException('this name is conflict', 409);
+    }
+
+    return this.branchModel.create({
+      id: body.id || uuidV4(),
+      name: body.name,
+      morningStartAt: body.afternoonStartAt,
+      morningEndAt: body.morningEndAt,
+      morningWorking: this.calculateTimeDifference(body.morningEndAt, body.morningStartAt),
+      afternoonStartAt: body.afternoonStartAt,
+      afternoonEndAt: body.afternoonEndAt,
+      officeManagerId: body.officeManagerId,
+      afternoonWorking: this.calculateTimeDifference(body.afternoonEndAt, body.afternoonStartAt),
+    })
+  }
+
   async create(branch: Partial<Branch>): Promise<Branch> {
     return this.branchModel.create(branch);
+  }
+
+  calculateTimeDifference(timeA, timeB) {
+    const [hoursA, minutesA] = timeA.split(':').map(Number);
+    const [hoursB, minutesB] = timeB.split(':').map(Number);
+    const totalMinutesA = hoursA * 60 + minutesA;
+    const totalMinutesB = hoursB * 60 + minutesB;
+    const differenceInMinutes = totalMinutesA - totalMinutesB;
+    const differenceInHours = differenceInMinutes / 60;
+  
+    return differenceInHours;
   }
 }

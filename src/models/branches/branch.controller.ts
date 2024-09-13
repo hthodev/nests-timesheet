@@ -1,8 +1,7 @@
-import { Body, Controller, Get, Param, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put } from '@nestjs/common';
 import { BranchService } from './branch.service';
-import { Branch } from 'models/branch.model';
 import { responseEndpoint } from 'src/responses/endpoint';
-import { IBodyUpdateBranch } from './branch.interface';
+import { IBodyBranch } from './branch.interface';
 
 @Controller('/branches')
 export class BranchController {
@@ -16,10 +15,26 @@ export class BranchController {
   }
 
   @Put('update-branch/:branchId')
-  async updateBranch(@Param('branchId') branchId: string, @Body() body: IBodyUpdateBranch) {
+  async updateBranch(@Param('branchId') branchId: string, @Body() body: IBodyBranch) {
     await this.branchService.updateBranch(body, branchId);
     return responseEndpoint({
       result: 'Updated'
+    })
+  }
+
+  
+  @Delete('delete-branch/:branchId')
+  async deleteBranch(@Param('branchId') branchId: string) {
+    await this.branchService.deleteBranch(branchId);
+    return responseEndpoint({
+      result: 'Deleted'
+    })
+  }
+
+  @Post('new-branch')
+  async newBranch(@Body() body: IBodyBranch) {
+    return responseEndpoint({
+      result: await this.branchService.newBranch(body)
     })
   }
 }
