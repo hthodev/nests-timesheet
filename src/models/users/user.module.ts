@@ -5,9 +5,10 @@ import { UserService } from './user.service';
 import { Sequelize } from 'sequelize-typescript';
 import { WorkingTimeService } from '../workingTimes/workingTime.service';
 import { WorkingTime } from 'models/workingTime.model';
+import { Branch } from 'models/branch.model';
 
 @Module({
-  imports: [SequelizeModule.forFeature([User]), SequelizeModule.forFeature([WorkingTime])],
+  imports: [SequelizeModule.forFeature([User, WorkingTime, Branch])],
   providers: [
     UserService, 
     {

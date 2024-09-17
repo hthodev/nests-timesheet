@@ -1,5 +1,6 @@
-import { Table, Column, Model, DataType, BelongsTo } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, BelongsTo, ForeignKey, HasOne } from 'sequelize-typescript';
 import { Branch } from './branch.model';
+import { WorkingTime } from './workingTime.model';
 
 @Table({
   tableName: 'users',
@@ -45,17 +46,14 @@ export class User extends Model<User> {
   })
   userName: string;
 
+  @ForeignKey(() => User)
   @Column({
     type: DataType.UUID,
     allowNull: true,
-    references: {
-      model: 'users',
-      key: 'id',
-    },
-    onUpdate: 'CASCADE',
-    onDelete: 'RESTRICT',
   })
   pmId: string;
+  @BelongsTo(() => User, { foreignKey: 'pmId' })
+  pm: User;
 
   @Column({
     type: DataType.FLOAT,
@@ -187,4 +185,7 @@ export class User extends Model<User> {
     allowNull: true,
   })
   currentAddress;
+
+  @HasOne(() => WorkingTime, { foreignKey: 'userId', constraints: false })
+  workingTime: WorkingTime;
 }

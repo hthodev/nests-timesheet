@@ -1,4 +1,5 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, BelongsTo, ForeignKey } from 'sequelize-typescript';
+import { User } from './user.model';
 
 @Table({
   tableName: 'workingTimes',
@@ -13,10 +14,13 @@ export class WorkingTime extends Model<WorkingTime> {
   id: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.UUID,
     allowNull: false,
   })
   userId: string;
+
+  @BelongsTo(() => User, { foreignKey: 'userId', constraints: false })
+  user: User;
 
   @Column({
     type: DataType.STRING,
