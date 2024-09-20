@@ -2,6 +2,37 @@ import { Branch } from 'models/branch.model';
 import { User } from 'models/user.model';
 import { WorkingTime } from 'models/workingTime.model';
 
+export enum POSITION {
+  DEV = 'Dev',
+  PM = 'PM',
+  HR = 'HR',
+  ADMIN = 'Admin',
+  SALE = 'Sale',
+  TESTER = 'Tester',
+  DESIGNER = 'Designer',
+  BA = 'BA',
+  DA = 'DA',
+  PO = 'PO',
+}
+
+export enum TYPE {
+  INTERN = "Intern",
+  STAFF = "Staff",
+  COLLABORATOR = "Collaborator"
+}
+
+export enum LEVEL {
+  INTERN = "Intern", 
+  FRESHER = "Fresher",
+  JUNIOR = "Junior",
+  SENIOR = "Senior"
+}
+
+export enum SEX {
+  MALE = "Male",
+  FEMALE = "Female"
+}
+
 export interface ICreateUserParam {
   branchId: string;
   workingTime: {
@@ -17,11 +48,11 @@ export interface ICreateUserParam {
   email: string;
   phoneNumber: string;
   pmId: string;
-  position: "DEV" | "PM" | "HR" | "ADMIN" | "SALE" | "TESTER" | "DESIGNER" | "BA" | "DA" | "PO";
-  type: "INTERN" | "STAFF" | "COLLABORATOR";
-  level: "INTERN" | "FRESHER" | "JUNIOR" | "SENIOR";
+  position: POSITION;
+  type: TYPE;
+  level: LEVEL;
   salary: number;
-  sex: "MALE" | "FEMALE";
+  sex: SEX;
 }
 
 export interface IParamGetUsersPaging {

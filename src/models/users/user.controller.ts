@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpException, Param, Post, Put, Query, Req, UsePipes } from '@nestjs/common';
 import { UserService } from './user.service';
-import { User } from 'models/user.model';
 import { ICreateUserParam, IUserRelation } from './user.interface';
-import { MyInformationDTO } from './user.validation';
 import { responseEndpoint } from 'src/responses/endpoint';
+import { JoiValidationBodyPipe } from 'src/middlewares/joiValidationPipe';
+import { allUsersNoPagingDTO, createNewOrUpdateEmployeeDTO, userIdValid } from './user.validation';
+import { validate } from 'uuid';
 
 @Controller('/users')
 export class UserController {
@@ -18,7 +19,8 @@ export class UserController {
   }
 
   @Post('create-new-employee')
-  async createNewUser(@Body() body: ICreateUserParam): Promise<any> {
+  @UsePipes(new JoiValidationBodyPipe(createNewOrUpdateEmployeeDTO))
+  async createNewEmployee(@Body() body: ICreateUserParam): Promise<any> {
     return responseEndpoint({
       result: await this.userService.createNewEmployee(body)
     })
@@ -32,6 +34,7 @@ export class UserController {
   }
 
   @Post('get-account-employees-paging')
+  @UsePipes(new JoiValidationBodyPipe(allUsersNoPagingDTO))
   @HttpCode(200)
   async getAccountEmployeesPaging(@Body() body: any): Promise<any> {
     return responseEndpoint({
@@ -47,7 +50,9 @@ export class UserController {
   }
 
   @Put('update-employee/:userId')
-  async updateEmployee(@Param('userId') userId: string, @Body() body: IUserRelation) {
+  @UsePipes(new JoiValidationBodyPipe(createNewOrUpdateEmployeeDTO))
+  async updateEmployee(@Param('userId') userId: string, @Body() body: IUserRelation) {    
+    if (!validate(userId)) throw new HttpException('userId is required', 400);
     await this.userService.updateEmployee(body, userId)
     return responseEndpoint({
       result: 'Updated'
@@ -56,6 +61,7 @@ export class UserController {
 
   @Put('change-active-employee/:userId')
   async changeActiveEmployee(@Param('userId') userId: string, @Body() body: { isActive: boolean }) {
+    if (!validate(userId)) throw new HttpException('userId is required', 400);
     await this.userService.changeActiveEmployee(userId, body)
     return responseEndpoint({
       result: 'Deleted'

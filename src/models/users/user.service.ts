@@ -172,7 +172,7 @@ export class UserService {
             workingTime.afternoonEndAt,
           ),
         },
-        { where: { id: workingTime.id }, transaction, logging: false },
+        { where: { userId }, transaction, logging: false },
       );
       await transaction.commit();
     } catch (error) {

@@ -63,13 +63,13 @@ export class User extends Model<User> {
   allowedLeaveDay: number;
 
   @Column({
-    type: DataType.ENUM("INTERN", "STAFF", "COLLABORATOR"),
+    type: DataType.ENUM("Intern", "Staff", "Collaborator"),
     allowNull: false,
   })
   type: string;
   
   @Column({
-    type: DataType.ENUM("INTERN", "FRESHER", "JUNIOR", "SENIOR"),
+    type: DataType.ENUM("Intern", "Fresher", "Junior", "Senior"),
     allowNull: false,
   })
   level: string;
@@ -81,7 +81,7 @@ export class User extends Model<User> {
   salary: number;
 
   @Column({
-    type: DataType.ENUM("MALE", "FEMALE"),
+    type: DataType.ENUM("Male", "Female"),
     allowNull: false,
   })
   sex: string;
@@ -115,7 +115,7 @@ export class User extends Model<User> {
   birthday;
 
   @Column({
-    type: DataType.ENUM("DEV", "PM", "HR", "ADMIN", "SALE", "TESTER", "DESIGNER", "BA", "DA", "PO"),
+    type: DataType.ENUM("Dev", "PM", "HR", "Admin", "Sale", "Tester", "Designer", "BA", "DA", "PO"),
     allowNull: false,
   })
   position;

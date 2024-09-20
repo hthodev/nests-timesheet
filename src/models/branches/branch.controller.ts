@@ -1,7 +1,10 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpException, Param, Post, Put, UsePipes } from '@nestjs/common';
 import { BranchService } from './branch.service';
 import { responseEndpoint } from 'src/responses/endpoint';
 import { IBodyBranch } from './branch.interface';
+import { validate } from 'uuid';
+import { JoiValidationBodyPipe } from 'src/middlewares/joiValidationPipe';
+import { updateOrCreateBranch } from './branch.validation';
 
 @Controller('/branches')
 export class BranchController {
@@ -15,7 +18,9 @@ export class BranchController {
   }
 
   @Put('update-branch/:branchId')
+  @UsePipes(new JoiValidationBodyPipe(updateOrCreateBranch))
   async updateBranch(@Param('branchId') branchId: string, @Body() body: IBodyBranch) {
+    if (!validate(branchId)) throw new HttpException('branchId is required', 400);
     await this.branchService.updateBranch(body, branchId);
     return responseEndpoint({
       result: 'Updated'
@@ -25,6 +30,7 @@ export class BranchController {
   
   @Delete('delete-branch/:branchId')
   async deleteBranch(@Param('branchId') branchId: string) {
+    if (!validate(branchId)) throw new HttpException('userId is required', 400);
     await this.branchService.deleteBranch(branchId);
     return responseEndpoint({
       result: 'Deleted'
@@ -32,6 +38,7 @@ export class BranchController {
   }
 
   @Post('new-branch')
+  @UsePipes(new JoiValidationBodyPipe(updateOrCreateBranch))
   async newBranch(@Body() body: IBodyBranch) {
     return responseEndpoint({
       result: await this.branchService.newBranch(body)
