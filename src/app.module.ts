@@ -16,6 +16,8 @@ import { SessionController } from './auth/session.controller';
 import { JwtMiddleware } from './middlewares/jwt.middleware';
 import { JwtModule } from '@nestjs/jwt';
 import { BranchController } from './models/branches/branch.controller';
+import { TaskModule } from './models/tasks/task.module';
+import { TaskController } from './models/tasks/task.controller';
 
 
 @Module({
@@ -33,8 +35,9 @@ import { BranchController } from './models/branches/branch.controller';
     BranchModule,
     WorkingTimeModule,
     AuthModule,
+    TaskModule,
   ],
-  controllers: [AppController, UserController, SessionController, AuthController, AuthController, BranchController],
+  controllers: [AppController, UserController, SessionController, AuthController, AuthController, BranchController, TaskController],
   providers: [AppService, AuthService, UserService],
 })
 export class AppModule {
