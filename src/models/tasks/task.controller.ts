@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpException, Param, Post, Put, UsePipes } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpException, Param, Post, Put, Query, UsePipes } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { responseEndpoint } from 'src/responses/endpoint';
 import { validate } from 'uuid';
@@ -42,6 +42,15 @@ export class TaskController {
   async newBranch(@Body() body: IBodyTask) {
     return responseEndpoint({
       result: await this.taskService.newTask(body)
+    })
+  }
+
+
+  @Post('get-tasks-by-project')
+  @HttpCode(200)
+  async getTasksByProjects(@Body() body: { projectIds: string[] }) {
+    return responseEndpoint({
+      result: await this.taskService.getTasksByProjects(body.projectIds)
     })
   }
 }

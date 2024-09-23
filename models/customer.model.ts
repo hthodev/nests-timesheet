@@ -1,11 +1,12 @@
 import { Table, Column, Model, DataType, BelongsTo, ForeignKey, HasMany } from 'sequelize-typescript';
-import { TaskProject } from './taskProject.model';
+import { User } from './user.model';
+import { Project } from './project.model';
 
 @Table({
-  tableName: 'tasks',
+  tableName: 'customers',
   timestamps: true,
 })
-export class Task extends Model<Task> {
+export class Customer extends Model<Customer> {
   @Column({
     type: DataType.UUID,
     defaultValue: DataType.UUIDV4,
@@ -23,8 +24,20 @@ export class Task extends Model<Task> {
     type: DataType.STRING,
     allowNull: false,
   })
-  type: string;
+  region: string;
 
-  @HasMany(() => TaskProject)
-  taskProjects: TaskProject[]
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  phoneNumber: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+  })
+  email: string;
+
+  @HasMany(() => Project)
+  projects: Project
 }

@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, OnModuleInit, RequestMethod } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  OnModuleInit,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -18,7 +23,11 @@ import { JwtModule } from '@nestjs/jwt';
 import { BranchController } from './models/branches/branch.controller';
 import { TaskModule } from './models/tasks/task.module';
 import { TaskController } from './models/tasks/task.controller';
-
+import { ProjectModule } from './models/projects/project.module';
+import { TimeSheetModule } from './models/timesheets/timesheet.module';
+import { CustomerModule } from './models/customers/customer.module';
+import { TimeSheetController } from './models/timesheets/timesheet.controller';
+import { ProjectController } from './models/projects/project.controller';
 
 @Module({
   imports: [
@@ -36,8 +45,21 @@ import { TaskController } from './models/tasks/task.controller';
     WorkingTimeModule,
     AuthModule,
     TaskModule,
+    ProjectModule,
+    TimeSheetModule,
+    CustomerModule,
   ],
-  controllers: [AppController, UserController, SessionController, AuthController, AuthController, BranchController, TaskController],
+  controllers: [
+    AppController,
+    UserController,
+    SessionController,
+    AuthController,
+    AuthController,
+    BranchController,
+    TaskController,
+    TimeSheetController,
+    ProjectController,
+  ],
   providers: [AppService, AuthService, UserService],
 })
 export class AppModule {

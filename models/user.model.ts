@@ -1,6 +1,7 @@
-import { Table, Column, Model, DataType, BelongsTo, ForeignKey, HasOne } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, BelongsTo, ForeignKey, HasOne, HasMany } from 'sequelize-typescript';
 import { Branch } from './branch.model';
 import { WorkingTime } from './workingTime.model';
+import { ProjectUser } from './projectUser.model';
 
 @Table({
   tableName: 'users',
@@ -188,4 +189,7 @@ export class User extends Model<User> {
 
   @HasOne(() => WorkingTime, { foreignKey: 'userId', constraints: false })
   workingTime: WorkingTime;
+
+  @HasMany(() => ProjectUser)
+  projectUser: ProjectUser[]
 }

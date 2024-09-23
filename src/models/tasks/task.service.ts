@@ -3,7 +3,8 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Task } from 'models/task.model';
 import { Sequelize, Op, UUIDV4 } from 'sequelize';
 import { v4 as uuidV4 } from 'uuid'; 
-import { IBodyTask } from './task.interface';
+import { IBodyTask, ITaskProjects } from './task.interface';
+import { TaskProject } from 'models/taskProject.model';
 
 @Injectable()
 export class TaskService {
@@ -11,11 +12,14 @@ export class TaskService {
     @InjectModel(Task)
     private readonly taskModel: typeof Task,
   ) {}
+  @InjectModel(TaskProject)
+  private readonly taskProjectModel: typeof TaskProject;
   async findTask(taskId: string, name?: string) {
     return await this.taskModel.findOne({
       where: { [Op.or]: { id: taskId, ...(name ? { name } : {}) } },
       raw: true,
       useMaster: false,
+      logging: false
     });
   }
 
@@ -61,10 +65,36 @@ export class TaskService {
       throw new HttpException('this name is conflict', 409);
     }
 
-    return this.taskModel.create({
+    return await this.taskModel.create({
       id: body.id || uuidV4(),
       name: body.name,
-        type: body.type
+      type: body.type,
     })
+  }
+
+  async getTasksByProjects(projectIds: string[]) {
+    const tasks = await this.taskModel.findAll({
+      include: {
+        model: this.taskProjectModel,
+        required: true,
+        where: { projectId: { [ Op.in ]: projectIds } },
+        attributes: ['projectId']
+      },
+      logging: false
+    })
+    const groupedTasks = new Map<string, any[]>();
+
+    tasks.forEach((task) => {
+      task.taskProjects.forEach(project => {
+        const projectId = project.projectId;
+        if (!groupedTasks.has(projectId)) {
+          groupedTasks.set(projectId, []);
+        }
+        const taskPush = task.toJSON();
+        delete taskPush.taskProjects;
+        groupedTasks.get(projectId)?.push(taskPush);
+      });
+    });
+    return Object.fromEntries(groupedTasks);
   }
 }
