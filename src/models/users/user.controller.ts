@@ -14,7 +14,7 @@ export class UserController {
   async myInformation(@Req() req: Request ) {
     const user = req['user']
     return responseEndpoint({
-      result: await this.userService.myInformation(user.userId)
+      result: await this.userService.myInformation(user.id)
     });
   }
 

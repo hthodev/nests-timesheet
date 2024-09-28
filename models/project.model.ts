@@ -3,6 +3,7 @@ import { User } from './user.model';
 import { ProjectUser } from './projectUser.model';
 import { TimeSheet } from './timesheet.model';
 import { Customer } from './customer.model';
+import { PmProject } from './pmProject.model';
 
 @Table({
   tableName: 'projects',
@@ -49,18 +50,12 @@ export class Project extends Model<Project> {
   @BelongsTo(() => Customer)
   customer: Customer
 
-  @ForeignKey(() => User)
-  @Column({
-    type: DataType.UUID,
-    allowNull: false,
-  })
-  projectPMId: string;
-  @BelongsTo(() => User)
-  projectManager: User;
-
   @HasMany(() => ProjectUser)
-  projectUser: ProjectUser[]
+  projectUsers: ProjectUser[]
 
   @HasMany(() => TimeSheet)
   timeSheets: TimeSheet[]
+
+  @HasMany(() => PmProject)
+  pmProjects: PmProject[]
 }

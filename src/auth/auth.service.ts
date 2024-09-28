@@ -35,8 +35,11 @@ export class AuthService {
       if (!user) {
         throw new HttpException("This account google isn't register!", 400);
       };
-      return { ...payload, userId: user.id }
+      return { ...payload, id: user.id }
     } catch (error) {
+      if (error.status === 500) {
+        throw new HttpException('Something error from server', 500)
+      }
       throw error
     }
 

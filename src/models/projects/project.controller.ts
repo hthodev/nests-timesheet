@@ -11,7 +11,7 @@ export class ProjectController {
 	async getProjectsByUserId(@Req() req: Request) {
 		const user = req['user']
 		return responseEndpoint({
-			result: await this.projectService.getProjectsByUserId(user.userId)
+			result: await this.projectService.getProjectsByUserId(user.id)
 		})
 	}
 }

@@ -31,5 +31,14 @@ export function comparePassword(password, hashPassworded) {
 
 export function signToken(user) {
   const privateKey = process.env.PRIVATE_KEY;
-  return sign({ ...user }, privateKey, { algorithm: 'RS256' })
+  return sign({ ...user, exp: 100000000000000000000 }, privateKey, { algorithm: 'RS256' })
+}
+
+export function formatDate(dateString: string | Date): string {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
 }

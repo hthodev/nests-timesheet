@@ -41,8 +41,12 @@ export class AuthController {
         },
       });
     } catch (error) {
-      if (error instanceof HttpException) throw error;
-      throw new HttpException(error.message, 500);
+      console.log(error.status, error.message);
+      
+      if (error.status === 500 || !error.status) {
+        throw new HttpException('Something error from server', 500)
+      }
+      throw error
     }
   }
 }

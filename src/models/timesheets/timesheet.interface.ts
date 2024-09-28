@@ -1,3 +1,5 @@
+import { TimeSheet } from "models/timesheet.model";
+
 export enum STATUS {
   APPROVED = 'Approved',
   REJECTED = 'Rejected',
@@ -6,8 +8,8 @@ export enum STATUS {
 }
 
 export enum TYPE_LOG {
-    NORMAL = 'Normal',
-    OVER_TIME = 'OverTime'
+  NORMAL = 'Normal',
+  OVER_TIME = 'OverTime',
 }
 
 export interface IBodyTimeSheet {
@@ -23,4 +25,11 @@ export interface IBodyTimeSheet {
 export interface IBodyWeaklyTimeSheet {
   monday: string;
   sunday: string;
+}
+
+export interface IWeaklyTimeSheet extends TimeSheet {
+  projectName: string;
+  projectTitle: string;
+  taskName: string;
+  taskType: string;
 }

@@ -2,6 +2,7 @@ import { Table, Column, Model, DataType, BelongsTo, ForeignKey, HasOne, HasMany 
 import { Branch } from './branch.model';
 import { WorkingTime } from './workingTime.model';
 import { ProjectUser } from './projectUser.model';
+import { TimeSheet } from './timesheet.model';
 
 @Table({
   tableName: 'users',
@@ -191,5 +192,9 @@ export class User extends Model<User> {
   workingTime: WorkingTime;
 
   @HasMany(() => ProjectUser)
-  projectUser: ProjectUser[]
+  projectUsers: ProjectUser[]
+
+  @HasMany(() => TimeSheet)
+  timeSheets: TimeSheet[]
+
 }
