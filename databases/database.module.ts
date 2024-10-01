@@ -12,11 +12,17 @@ import { Sequelize } from 'sequelize-typescript';
         dialect: 'postgres',
         host: configService.get('database.host'),
         port: configService.get('database.port'),
-        username: configService.get('database.username'),
+        username: configService.get('database.user'),
         password: configService.get('database.password'),
         database: configService.get('database.database'),
         autoLoadModels: true,
         synchronize: true,
+        dialectOptions: {
+          ssl: {
+            rejectUnauthorized: configService.get('database.ssl.rejectUnauthorized'),
+            ca: configService.get('database.ssl.ca'),
+          },
+        },
       }),
       inject: [ConfigService],
     }),

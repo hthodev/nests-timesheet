@@ -21,13 +21,13 @@ export class Project extends Model<Project> {
     type: DataType.STRING,
     allowNull: false,
   })
-  title: string;
+  name: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.ENUM("T&M", "Fixed cost", "Company", "ODC"),
     allowNull: false,
   })
-  name: string;
+  type: string;
 
   @Column({
     type: DataType.DATE,
@@ -37,7 +37,7 @@ export class Project extends Model<Project> {
 
   @Column({
     type: DataType.DATE,
-    allowNull: null,
+    allowNull: true,
   })
   projectEnd: Date;
 

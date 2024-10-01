@@ -27,7 +27,7 @@ export class AuthService {
         where: { 
           email: payload.email,
         },
-        attributes: ["id"],
+        attributes: ["id", "picture", "sex", "position"],
         useMaster: false,
         raw: true
       });
@@ -35,7 +35,7 @@ export class AuthService {
       if (!user) {
         throw new HttpException("This account google isn't register!", 400);
       };
-      return { ...payload, id: user.id }
+      return { ...payload, id: user.id, avatar: user.picture, sex: user.sex, position: user.position }
     } catch (error) {
       if (error.status === 500) {
         throw new HttpException('Something error from server', 500)

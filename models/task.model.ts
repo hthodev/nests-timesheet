@@ -1,5 +1,5 @@
 import { Table, Column, Model, DataType, BelongsTo, ForeignKey, HasMany } from 'sequelize-typescript';
-import { TaskProject } from './taskProject.model';
+import { ProjectTask } from './projectTask.model';
 
 @Table({
   tableName: 'tasks',
@@ -25,6 +25,6 @@ export class Task extends Model<Task> {
   })
   type: string;
 
-  @HasMany(() => TaskProject)
-  taskProjects: TaskProject[]
+  @HasMany(() => ProjectTask)
+  taskProjects: ProjectTask[]
 }

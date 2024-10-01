@@ -6,12 +6,12 @@ import { TimeSheet } from 'models/timesheet.model';
 import { Project } from 'models/project.model';
 import { Task } from 'models/task.model';
 import { TimeSheetService } from './timesheet.service';
-import { TaskProject } from 'models/taskProject.model';
+import { ProjectTask } from 'models/projectTask.model';
 import { ProjectUser } from 'models/projectUser.model';
 import { PmProject } from 'models/pmProject.model';
 
 @Module({
-  imports: [SequelizeModule.forFeature([User, TimeSheet, Project, Task, TaskProject, ProjectUser, PmProject])],
+  imports: [SequelizeModule.forFeature([User, TimeSheet, Project, Task, ProjectTask, ProjectUser, PmProject])],
   providers: [
     {
       provide: 'SEQUELIZE',

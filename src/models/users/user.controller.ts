@@ -36,9 +36,10 @@ export class UserController {
   @Post('get-account-employees-paging')
   @UsePipes(new JoiValidationBodyPipe(allUsersNoPagingDTO))
   @HttpCode(200)
-  async getAccountEmployeesPaging(@Body() body: any): Promise<any> {
+  async getAccountEmployeesPaging(@Body() body: any, @Req() req: Request): Promise<any> {
+    const user = req['user'];
     return responseEndpoint({
-      result: await this.userService.getAccountEmployeesPaging(body),
+      result: await this.userService.getAccountEmployeesPaging(body, user),
     })
   }
 

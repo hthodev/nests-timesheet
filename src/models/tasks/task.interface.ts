@@ -1,5 +1,5 @@
 import { Task } from "models/task.model";
-import { TaskProject } from "models/taskProject.model";
+import { ProjectTask } from "models/projectTask.model";
 
 export interface IBodyTask {
     id?: string;
@@ -7,6 +7,6 @@ export interface IBodyTask {
     type: string;
 }
 
-export interface ITaskProjects extends Omit<Task, 'taskProjects'> {
-    taskProjects: { projectId: string }[]
+export interface IProjectTask extends Omit<Task, 'projectTasks'> {
+    projectTasks: { projectId: string }[]
 }

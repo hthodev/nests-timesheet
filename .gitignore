@@ -3,3 +3,4 @@ node_modules
 tsconfig.build.json
 dist
 start.sh
+migration.sh

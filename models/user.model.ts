@@ -117,7 +117,7 @@ export class User extends Model<User> {
   birthday;
 
   @Column({
-    type: DataType.ENUM("Dev", "PM", "HR", "Admin", "Sale", "Tester", "Designer", "BA", "DA", "PO"),
+    type: DataType.ENUM("Dev", "PM", "HR", "Admin", "Sale", "Tester", "Designer", "BA", "DA", "PO", "Supervisor"),
     allowNull: false,
   })
   position;

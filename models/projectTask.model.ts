@@ -3,10 +3,10 @@ import { Project } from './project.model';
 import { Task } from './task.model';
 
 @Table({
-  tableName: 'taskProjects',
+  tableName: 'projectTask',
   timestamps: true,
 })
-export class TaskProject extends Model<TaskProject> {
+export class ProjectTask extends Model<ProjectTask> {
   @Column({
     type: DataType.UUID,
     defaultValue: DataType.UUIDV4,
@@ -30,5 +30,5 @@ export class TaskProject extends Model<TaskProject> {
   })
   taskId: string;
   @BelongsTo(() => Task)
-  taskProject: Task
+  projectTask: Task
 }

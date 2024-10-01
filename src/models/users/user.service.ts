@@ -7,6 +7,7 @@ import {
   ICreateUserParam,
   IParamGetUsersPaging,
   IUserRelation,
+  POSITION,
 } from './user.interface';
 import { calculateWorkingTime, hashPassword } from 'src/shares/ultis';
 import { WorkingTime } from '../../../models/workingTime.model';
@@ -25,6 +26,10 @@ export class UserService {
   private readonly workingTimeModel: typeof WorkingTime;
   @InjectModel(Branch)
   private readonly branchModel: typeof Branch;
+
+  async findSupervisor() {
+    return this.userModel.findAll({ where: { position: POSITION.SUPERVISOR }, raw: true, logging: false })
+  }
 
   async createNewEmployee(body: ICreateUserParam): Promise<User> {
     const transaction = await this.sequelize.transaction();
@@ -181,7 +186,8 @@ export class UserService {
     }
   }
 
-  async getAccountEmployeesPaging(body: IParamGetUsersPaging) {
+  async getAccountEmployeesPaging(body: IParamGetUsersPaging, user) {
+    const isSupervisor = user.position === POSITION.SUPERVISOR;
     const limit = body.limit || 10;
     const search = body.search ? `%${body.search}%` : '%%';
     const currentPage = body.currentPage ? Number(body.currentPage) - 1 : 0;
@@ -205,6 +211,11 @@ export class UserService {
       }
       return `"User"."type" IN (${item?.names?.map((name) => `'${name}'`)})`;
     });
+
+    if (!isSupervisor) {
+      filterValues.push(`"User"."position" != '${POSITION.SUPERVISOR}'`)
+    }
+
     const pmIds = body.pmIds || [];
     pmIds.length &&
       filterValues.push(
@@ -271,7 +282,12 @@ export class UserService {
                 OR "User"."userName" ilike :search
                 OR "User"."email" ilike :search
             ) ${defaultGetIsActive} ${filterSql}
-        ORDER BY CONCAT("User"."firstName", "User"."lastName") ASC
+        ORDER BY 
+          CASE
+            WHEN "User"."position" = 'Supervisor' THEN 1
+            WHEN "User"."position" = 'Admin' THEN 2
+          END ASC,
+          CONCAT("User"."firstName", "User"."lastName") ASC
         LIMIT :limit OFFSET :offset;
         `,
         {

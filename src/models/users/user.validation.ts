@@ -8,7 +8,7 @@ export const createNewOrUpdateEmployeeDTO = Joi.object({
     userName: Joi.string().required(),
     birthday: Joi.string().required(),
     phoneNumber: Joi.string().required(),
-    pmId: Joi.string().uuid().optional(),
+    pmId: Joi.string().uuid().optional().allow(null),
     position: Joi.string().valid(POSITION.ADMIN, POSITION.BA, POSITION.DA, POSITION.DESIGNER, POSITION.DEV, POSITION.HR, POSITION.PM, POSITION.PO, POSITION.SALE, POSITION.TESTER).required(),
     type: Joi.string().valid(TYPE.INTERN, TYPE.STAFF, TYPE.COLLABORATOR).required(),
     level: Joi.string().valid(LEVEL.INTERN, LEVEL.FRESHER, LEVEL.JUNIOR, LEVEL.SENIOR).required(),

@@ -13,6 +13,7 @@ export enum POSITION {
   BA = 'BA',
   DA = 'DA',
   PO = 'PO',
+  SUPERVISOR = 'Supervisor'
 }
 
 export enum TYPE {

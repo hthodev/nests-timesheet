@@ -113,7 +113,6 @@ export class TimeSheetService {
       `
       SELECT "timeSheet".*,
         "project"."name"  AS "projectName",
-        "project"."title" AS "projectTitle",
         "task"."name"     AS "taskName",
         "task"."type"     AS "taskType"
       FROM "timeSheets" AS "timeSheet"
@@ -206,7 +205,7 @@ export class TimeSheetService {
     console.log(firstDayOfMonth.toISOString(), lastDayOfMonth.toISOString());
 
     const projects = await this.projectModel.findAll({
-      attributes: ['id', 'name', 'title'],
+      attributes: ['id', 'name'],
       include: [
         {
           model: this.pmProjectModel,

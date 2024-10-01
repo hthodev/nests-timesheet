@@ -3,8 +3,8 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Task } from 'models/task.model';
 import { Sequelize, Op, UUIDV4 } from 'sequelize';
 import { v4 as uuidV4 } from 'uuid'; 
-import { IBodyTask, ITaskProjects } from './task.interface';
-import { TaskProject } from 'models/taskProject.model';
+import { IBodyTask, IProjectTask } from './task.interface';
+import { ProjectTask } from 'models/projectTask.model';
 
 @Injectable()
 export class TaskService {
@@ -12,8 +12,8 @@ export class TaskService {
     @InjectModel(Task)
     private readonly taskModel: typeof Task,
   ) {}
-  @InjectModel(TaskProject)
-  private readonly taskProjectModel: typeof TaskProject;
+  @InjectModel(ProjectTask)
+  private readonly taskProjectModel: typeof ProjectTask;
   async findTask(taskId: string, name?: string) {
     return await this.taskModel.findOne({
       where: { [Op.or]: { id: taskId, ...(name ? { name } : {}) } },

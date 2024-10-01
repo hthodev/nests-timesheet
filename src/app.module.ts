@@ -28,6 +28,7 @@ import { TimeSheetModule } from './models/timesheets/timesheet.module';
 import { CustomerModule } from './models/customers/customer.module';
 import { TimeSheetController } from './models/timesheets/timesheet.controller';
 import { ProjectController } from './models/projects/project.controller';
+import { CustomerController } from './models/customers/customer.controller';
 
 @Module({
   imports: [
@@ -59,6 +60,7 @@ import { ProjectController } from './models/projects/project.controller';
     TaskController,
     TimeSheetController,
     ProjectController,
+    CustomerController,
   ],
   providers: [AppService, AuthService, UserService],
 })

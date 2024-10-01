@@ -3,6 +3,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { Project } from 'models/project.model';
 import { Customer } from 'models/customer.model';
+import { CustomerService } from './customer.service';
 
 @Module({
   imports: [SequelizeModule.forFeature([Customer, Project])],
@@ -11,7 +12,8 @@ import { Customer } from 'models/customer.model';
       provide: 'SEQUELIZE',
       useExisting: Sequelize,
     },
+    CustomerService,
   ],
-  exports: ['SEQUELIZE', SequelizeModule],
+  exports: ['SEQUELIZE', SequelizeModule, CustomerService],
 })
 export class CustomerModule { }

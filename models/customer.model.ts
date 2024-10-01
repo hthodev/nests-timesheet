@@ -39,5 +39,5 @@ export class Customer extends Model<Customer> {
   email: string;
 
   @HasMany(() => Project)
-  projects: Project
+  projects: Project[]
 }
