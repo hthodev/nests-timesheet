@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { Branch } from '../../../models/branch.model';
 import { BranchService } from './branch.service';
-import { User } from 'models/user.model';
+import { Branch } from './branch.model';
+import { User } from '../users/user.model';
 
 @Module({
   imports: [SequelizeModule.forFeature([Branch, User])],

@@ -1,6 +1,6 @@
 import { Table, Column, Model, DataType, BelongsTo, ForeignKey } from 'sequelize-typescript';
-import { Project } from './project.model';
-import { Task } from './task.model';
+import { Project } from '../projects/project.model';
+import { Task } from '../tasks/task.model';
 
 @Table({
   tableName: 'projectTask',
@@ -21,7 +21,7 @@ export class ProjectTask extends Model<ProjectTask> {
   })
   projectId: string;
   @BelongsTo(() => Project)
-  projectUser: Project
+  user: Project
 
   @ForeignKey(() => Task)
   @Column({
@@ -30,5 +30,5 @@ export class ProjectTask extends Model<ProjectTask> {
   })
   taskId: string;
   @BelongsTo(() => Task)
-  projectTask: Task
+  task: Task
 }

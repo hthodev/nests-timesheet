@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
-import { Project } from 'models/project.model';
-import { Customer } from 'models/customer.model';
 import { CustomerService } from './customer.service';
+import { Customer } from './customer.model';
+import { Project } from '../projects/project.model';
 
 @Module({
   imports: [SequelizeModule.forFeature([Customer, Project])],

@@ -16,6 +16,7 @@ import { responseEndpoint } from 'src/responses/endpoint';
 import { validate } from 'uuid';
 import { JoiValidationBodyPipe } from 'src/middlewares/joiValidationPipe';
 import { ProjectService } from './project.service';
+import { IBodyProject } from './project.interface';
 
 @Controller('/projects')
 export class ProjectController {
@@ -41,5 +42,11 @@ export class ProjectController {
     return responseEndpoint({
       result: await this.projectService.createNewProject(body),
     });
+  }
+
+  @Put('update-project/:projectId')
+  async updateProject(@Param('projectId') projectId: string, @Body() body: IBodyProject) {
+    await this.projectService.updateProject(projectId, body);
+    responseEndpoint({ result: 'Updated' })
   }
 }

@@ -34,4 +34,9 @@ export class CustomerController {
       result: await this.customerService.findAllCustomers(),
     });
   }
+
+  @Get('get-customer/:customerId')
+  async getCustomer(@Param('customerId') customerId: string) {
+    return responseEndpoint({ result: await this.customerService.findOneCustomer({ id: customerId }) })
+  }
 }

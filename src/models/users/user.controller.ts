@@ -68,4 +68,11 @@ export class UserController {
       result: 'Deleted'
     })
   }
+
+  @Get('get-project-users/:projectId')
+  async projectUsers(@Param('projectId') projectId: string) {
+    return responseEndpoint({
+      result: await this.userService.projectUsers(projectId)
+    })
+  }
 }

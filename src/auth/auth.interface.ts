@@ -8,12 +8,6 @@ export interface IUserLogin {
   name?: string;
 }
 
-export interface IAuthentication {
-  password: string;
-  rememberClient: boolean;
-  userNameOrEmailAddress: string;
-}
-
 export interface IResponseGoogle {
   hd: string
   email: string;

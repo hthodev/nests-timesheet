@@ -1,8 +1,8 @@
 // src/user/user.service.ts
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { WorkingTime } from '../../../models/workingTime.model';
 import { Sequelize } from 'sequelize-typescript';
+import { WorkingTime } from './workingTime.model';
 
 @Injectable()
 export class WorkingTimeService {

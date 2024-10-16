@@ -1,4 +1,5 @@
-import { TimeSheet } from "models/timesheet.model";
+import { TimeSheet } from "./timesheet.model";
+
 
 export enum STATUS {
   APPROVED = 'Approved',

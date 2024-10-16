@@ -5,8 +5,8 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { AuthService } from './auth.service';
 import { GoogleAuthService } from './google-auth.service';
 import { AuthController } from './auth.controller';
-import { User } from 'models/user.model';
 import authConfig from 'configs/auth.config';
+import { User } from 'src/models/users/user.model';
 
 @Module({
   imports: [

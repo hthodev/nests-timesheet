@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { WorkingTime } from '../../../models/workingTime.model';
 import { WorkingTimeService } from './workingTime.service';
+import { WorkingTime } from './workingTime.model';
 
 @Module({
   imports: [SequelizeModule.forFeature([WorkingTime])],

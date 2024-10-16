@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import databaseConfig from '../configs/database.config';
+import databaseConfig from './database.config';
 import { Sequelize } from 'sequelize-typescript';
 
 @Module({

@@ -6,8 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize, Op, UUIDV4 } from 'sequelize';
-import { v4 as uuidV4 } from 'uuid';
-import { Customer } from 'models/customer.model';
+import { Customer } from './customer.model';
 
 @Injectable()
 export class CustomerService {

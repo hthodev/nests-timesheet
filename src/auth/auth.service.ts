@@ -1,10 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
-import { IAuthentication, IResponseGoogle, IUserLogin } from './auth.interface';
-import { User } from 'models/user.model';
-import { Op } from 'sequelize';
-import bcrypt from "bcrypt";
-import { hashPassword } from 'src/shares/ultis';
+import { IResponseGoogle, IUserLogin } from './auth.interface';
 import { InjectModel } from '@nestjs/sequelize';
+import { User } from 'src/models/users/user.model';
 
 @Injectable()
 

@@ -53,4 +53,9 @@ export class TaskController {
       result: await this.taskService.getTasksByProjects(body.projectIds)
     })
   }
+
+  @Get('get-project-tasks/:projectId')
+  async getProjectTask(@Param('projectId') projectId: string) {
+    return responseEndpoint({ result: await this.taskService.getProjectTask(projectId)})
+  }
 }

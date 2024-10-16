@@ -6,8 +6,6 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize, Op, UUIDV4, QueryTypes, where } from 'sequelize';
-import { v4 as uuidV4 } from 'uuid';
-import { TimeSheet } from 'models/timesheet.model';
 import {
   IBodyTimeSheet,
   IBodyWeaklyTimeSheet,
@@ -15,12 +13,13 @@ import {
   STATUS,
   TYPE_LOG,
 } from './timesheet.interface';
-import { Project } from 'models/project.model';
-import { Task } from 'models/task.model';
-import { PmProject } from 'models/pmProject.model';
-import { User } from 'models/user.model';
-import { ProjectUser } from 'models/projectUser.model';
 import { formatDate } from 'src/shares/ultis';
+import { Project } from '../projects/project.model';
+import { TimeSheet } from './timesheet.model';
+import { Task } from '../tasks/task.model';
+import { PmProject } from '../pmProjects/pmProject.model';
+import { User } from '../users/user.model';
+import { ProjectUser } from '../projectUsers/projectUser.model';
 
 @Injectable()
 export class TimeSheetService {
@@ -235,14 +234,14 @@ export class TimeSheetService {
                   model: this.timeSheetModel,
                   required: true,
                   where: this.sequelize.literal(
-                    `"projectUsers->userProject->timeSheets"."status" ${
+                    `"projectUsers->user->timeSheets"."status" ${
                       status && status === 'All'
                         ? `IN ('${STATUS.PENDING}', '${STATUS.APPROVED}', '${STATUS.REJECTED}') AND`
                         : `= '${status}' AND`
                     } 
-                      ${workingType && workingType !== 'All' ? `"projectUsers->userProject->timeSheets"."typeLog" = '${workingType}' AND` : ''}
-                    ("projectUsers->userProject->timeSheets"."dateLog" >= '${formatDate(firstDayOfMonth)}' AND
-                     "projectUsers->userProject->timeSheets"."dateLog" <= '${formatDate(lastDayOfMonth)}')`,
+                      ${workingType && workingType !== 'All' ? `"projectUsers->user->timeSheets"."typeLog" = '${workingType}' AND` : ''}
+                    ("projectUsers->user->timeSheets"."dateLog" >= '${formatDate(firstDayOfMonth)}' AND
+                     "projectUsers->user->timeSheets"."dateLog" <= '${formatDate(lastDayOfMonth)}')`,
                   ),
                   include: [
                     {
@@ -259,17 +258,17 @@ export class TimeSheetService {
       ],
       order: [
         this.sequelize.literal(
-          `"projectUsers->userProject->timeSheets"."dateLog" DESC`,
+          `"projectUsers->user->timeSheets"."dateLog" DESC`,
         ),
       ],
-      // logging: false,
+      logging: false,
     });
 
     return projects.map((project) => {
       project = project.toJSON();
       project.projectUsers.map((projectUser) => {
-        projectUser.userProject.timeSheets = this.groupTimeSheet(
-          projectUser.userProject.timeSheets,
+        projectUser.user.timeSheets = this.groupTimeSheet(
+          projectUser.user.timeSheets,
         );
         return projectUser;
       });

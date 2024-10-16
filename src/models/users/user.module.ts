@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { User } from '../../../models/user.model';
 import { UserService } from './user.service';
 import { Sequelize } from 'sequelize-typescript';
 import { WorkingTimeService } from '../workingTimes/workingTime.service';
-import { WorkingTime } from 'models/workingTime.model';
-import { Branch } from 'models/branch.model';
-
+import { User } from './user.model';
+import { WorkingTime } from '../workingTimes/workingTime.model';
+import { Branch } from '../branches/branch.model';
+import { ProjectUser } from '../projectUsers/projectUser.model';
 @Module({
-  imports: [SequelizeModule.forFeature([User, WorkingTime, Branch])],
+  imports: [SequelizeModule.forFeature([User, WorkingTime, Branch, ProjectUser])],
   providers: [
     UserService, 
     {

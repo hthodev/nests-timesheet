@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { User } from '../../../models/user.model';
 import { Sequelize } from 'sequelize-typescript';
-import { TimeSheet } from 'models/timesheet.model';
-import { Project } from 'models/project.model';
-import { Task } from 'models/task.model';
-import { ProjectUser } from 'models/projectUser.model';
 import { ProjectService } from './project.service';
-import { ProjectTask } from 'models/projectTask.model';
-import { PmProject } from 'models/pmProject.model';
-import { Customer } from 'models/customer.model';
+import { User } from '../users/user.model';
+import { TimeSheet } from '../timesheets/timesheet.model';
+import { Project } from './project.model';
+import { Task } from '../tasks/task.model';
+import { ProjectUser } from '../projectUsers/projectUser.model';
+import { ProjectTask } from '../projectTasks/projectTask.model';
+import { PmProject } from '../pmProjects/pmProject.model';
+import { Customer } from '../customers/customer.model';
 
 @Module({
   imports: [SequelizeModule.forFeature([User, TimeSheet, Project, Task, ProjectUser, ProjectTask, PmProject, Customer])],

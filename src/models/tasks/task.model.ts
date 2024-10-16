@@ -1,5 +1,5 @@
 import { Table, Column, Model, DataType, BelongsTo, ForeignKey, HasMany } from 'sequelize-typescript';
-import { ProjectTask } from './projectTask.model';
+import { ProjectTask } from '../projectTasks/projectTask.model';
 
 @Table({
   tableName: 'tasks',

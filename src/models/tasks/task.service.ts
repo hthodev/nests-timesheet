@@ -1,10 +1,10 @@
 import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Task } from 'models/task.model';
 import { Sequelize, Op, UUIDV4 } from 'sequelize';
 import { v4 as uuidV4 } from 'uuid'; 
 import { IBodyTask, IProjectTask } from './task.interface';
-import { ProjectTask } from 'models/projectTask.model';
+import { Task } from './task.model';
+import { ProjectTask } from '../projectTasks/projectTask.model';
 
 @Injectable()
 export class TaskService {
@@ -13,7 +13,7 @@ export class TaskService {
     private readonly taskModel: typeof Task,
   ) {}
   @InjectModel(ProjectTask)
-  private readonly taskProjectModel: typeof ProjectTask;
+  private readonly projectTaskModel: typeof ProjectTask;
   async findTask(taskId: string, name?: string) {
     return await this.taskModel.findOne({
       where: { [Op.or]: { id: taskId, ...(name ? { name } : {}) } },
@@ -75,7 +75,7 @@ export class TaskService {
   async getTasksByProjects(projectIds: string[]) {
     const tasks = await this.taskModel.findAll({
       include: {
-        model: this.taskProjectModel,
+        model: this.projectTaskModel,
         required: true,
         where: { projectId: { [ Op.in ]: projectIds } },
         attributes: ['projectId']
@@ -96,5 +96,14 @@ export class TaskService {
       });
     });
     return Object.fromEntries(groupedTasks);
+  }
+
+  async getProjectTask(projectId) {
+    return this.projectTaskModel.findAll({
+      where: { projectId },
+      include: { model: this.taskModel },
+      useMaster: false,
+      logging: false,
+    })
   }
 }

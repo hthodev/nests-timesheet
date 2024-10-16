@@ -1,8 +1,6 @@
-// src/user/user.service.ts
 import { Injectable, Inject, HttpException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
-import { User } from '../../../models/user.model';
 import {
   ICreateUserParam,
   IParamGetUsersPaging,
@@ -10,10 +8,12 @@ import {
   POSITION,
 } from './user.interface';
 import { calculateWorkingTime, hashPassword } from 'src/shares/ultis';
-import { WorkingTime } from '../../../models/workingTime.model';
 import { v4 as uuidv4 } from 'uuid';
-import { Branch } from 'models/branch.model';
 import { Op, QueryTypes } from 'sequelize';
+import { WorkingTime } from '../workingTimes/workingTime.model';
+import { Branch } from '../branches/branch.model';
+import { ProjectUser } from '../projectUsers/projectUser.model';
+import { User } from './user.model';
 
 @Injectable()
 export class UserService {
@@ -26,9 +26,15 @@ export class UserService {
   private readonly workingTimeModel: typeof WorkingTime;
   @InjectModel(Branch)
   private readonly branchModel: typeof Branch;
+  @InjectModel(ProjectUser)
+  private readonly projectUserModel: typeof ProjectUser;
 
   async findSupervisor() {
-    return this.userModel.findAll({ where: { position: POSITION.SUPERVISOR }, raw: true, logging: false })
+    return this.userModel.findAll({
+      where: { position: POSITION.SUPERVISOR },
+      raw: true,
+      logging: false,
+    });
   }
 
   async createNewEmployee(body: ICreateUserParam): Promise<User> {
@@ -213,7 +219,7 @@ export class UserService {
     });
 
     if (!isSupervisor) {
-      filterValues.push(`"User"."position" != '${POSITION.SUPERVISOR}'`)
+      filterValues.push(`"User"."position" != '${POSITION.SUPERVISOR}'`);
     }
 
     const pmIds = body.pmIds || [];
@@ -410,5 +416,23 @@ export class UserService {
       transaction.rollback();
       throw new HttpException(error.message, error.status);
     }
+  }
+
+  async projectUsers(projectId: string) {
+    return this.projectUserModel.findAll({
+      where: { projectId },
+      include: {
+        model: this.userModel,
+        attributes: [
+          'id',
+          'firstName',
+          'lastName',
+          'picture',
+          'sex',
+          'type',
+          'position',
+        ],
+      },
+    });
   }
 }

@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { WorkingTimeService } from './workingTime.service';
-import { WorkingTime } from 'models/workingTime.model';
+import { WorkingTime } from './workingTime.model';
 
 @Controller('users')
 export class UserController {

@@ -1,5 +1,4 @@
-import { Task } from "models/task.model";
-import { ProjectTask } from "models/projectTask.model";
+import { Task } from "./task.model";
 
 export interface IBodyTask {
     id?: string;

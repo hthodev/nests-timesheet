@@ -1,8 +1,8 @@
 import { Table, Column, Model, DataType, BelongsTo, ForeignKey, HasOne, HasMany } from 'sequelize-typescript';
-import { Branch } from './branch.model';
-import { WorkingTime } from './workingTime.model';
-import { ProjectUser } from './projectUser.model';
-import { TimeSheet } from './timesheet.model';
+import { Branch } from '../branches/branch.model';
+import { WorkingTime } from '../workingTimes/workingTime.model';
+import { ProjectUser } from '../projectUsers/projectUser.model';
+import { TimeSheet } from '../timesheets/timesheet.model';
 
 @Table({
   tableName: 'users',

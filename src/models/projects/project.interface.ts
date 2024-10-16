@@ -15,6 +15,7 @@ export interface IBodyProject {
     projectUserType: PROJECT_USER_TYPE;
   }[];
   tasks: { id: string }[];
+  allEmployeesSelected: boolean;
 }
 
 interface IPMProject {

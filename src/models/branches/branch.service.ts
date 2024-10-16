@@ -1,10 +1,10 @@
 import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Branch } from '../../../models/branch.model';
-import { User } from 'models/user.model';
 import { Sequelize, Op, UUIDV4 } from 'sequelize';
 import { IBodyBranch } from './branch.interface';
 import { v4 as uuidV4 } from 'uuid'; 
+import { Branch } from './branch.model';
+import { User } from '../users/user.model';
 
 @Injectable()
 export class BranchService {

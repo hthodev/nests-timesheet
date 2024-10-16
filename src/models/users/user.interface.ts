@@ -1,6 +1,6 @@
-import { Branch } from 'models/branch.model';
-import { User } from 'models/user.model';
-import { WorkingTime } from 'models/workingTime.model';
+import { Branch } from "../branches/branch.model";
+import { WorkingTime } from "../workingTimes/workingTime.model";
+import { User } from "./user.model";
 
 export enum POSITION {
   DEV = 'Dev',

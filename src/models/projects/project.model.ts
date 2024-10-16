@@ -1,9 +1,8 @@
 import { Table, Column, Model, DataType, BelongsTo, ForeignKey, HasMany } from 'sequelize-typescript';
-import { User } from './user.model';
-import { ProjectUser } from './projectUser.model';
-import { TimeSheet } from './timesheet.model';
-import { Customer } from './customer.model';
-import { PmProject } from './pmProject.model';
+import { Customer } from '../customers/customer.model';
+import { ProjectUser } from '../projectUsers/projectUser.model';
+import { TimeSheet } from '../timesheets/timesheet.model';
+import { PmProject } from '../pmProjects/pmProject.model';
 
 @Table({
   tableName: 'projects',
@@ -24,7 +23,7 @@ export class Project extends Model<Project> {
   name: string;
 
   @Column({
-    type: DataType.ENUM("T&M", "Fixed cost", "Company", "ODC"),
+    type: DataType.ENUM("T&M", "Fixed cost", "Company", "ODC", "Non-billable"),
     allowNull: false,
   })
   type: string;

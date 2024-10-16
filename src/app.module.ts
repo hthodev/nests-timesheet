@@ -11,7 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import authConfig from '../configs/auth.config';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
-import { DatabaseModule } from 'databases/database.module';
+import { DatabaseModule } from 'configs/database.module';
 import { UserModule } from './models/users/user.module';
 import { UserController } from './models/users/user.controller';
 import { UserService } from './models/users/user.service';

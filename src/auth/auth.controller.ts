@@ -13,7 +13,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { responseEndpoint } from 'src/responses/endpoint';
-import { IAuthentication, IResponseGoogle } from './auth.interface';
+import { IResponseGoogle } from './auth.interface';
 import { comparePassword, signToken } from 'src/shares/ultis';
 import { GoogleAuthService } from './google-auth.service';
 
