@@ -32,6 +32,7 @@ export function comparePassword(password, hashPassworded) {
 export function signToken(user) {
   const privateKey = process.env.PRIVATE_KEY;
   return sign({ ...user, exp: 100000000000000000000 }, privateKey, { algorithm: 'RS256' })
+  
 }
 
 export function formatDate(dateString: string | Date): string {
